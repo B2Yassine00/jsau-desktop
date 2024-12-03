@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Electron App</title>
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Page Login -->
+    <div id="login-page">
+      <h1>Login</h1>
+      <form id="login-form">
+        <input type="text" id="username" placeholder="Enter username" required />
+        <button type="submit">Login</button>
+      </form>
+    </div>
+
+    <!-- App content (hidden initially) -->
+    <div id="main-content" style="display: none;">
+      <nav>
+        <button onclick="navigateTo('documents')">Documents</button>
+        <button onclick="navigateTo('favorites')">Favorites</button>
+        <button onclick="logout()">Logout</button>
+      </nav>
+      <div id="content"></div>
+    </div>
+  </div>
+
+  <script src="./renderer.js"></script>
+</body>
+</html>
