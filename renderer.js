@@ -50,20 +50,24 @@ function navigateTo(page) {
 
 // Récupérer les documents
 async function getDocuments(query = "") {
-  const response = await fetch(`${apiUrl}/search${query ? `?name=${query}` : ""}`);
+  const response = await fetch(`${apiUrl}/search`); //${query ? `?name=${query}` : ""}
   const documents = await response.json();
 
   if (documents.error) {
     alert(documents.error);
     return;
   }
-
-  renderDocuments(documents);
+  console.log(query);
+  console.log(documents);
+  const filteredDocuments = documents.filter(doc => doc.name.toLowerCase().includes(query));
+  console.log(filteredDocuments);
+  renderDocuments(filteredDocuments);
 }
 
 // Rechercher des documents
 function searchDocuments() {
   const query = document.getElementById("search-bar").value;
+  console.log(query);
   getDocuments(query);
 }
 
@@ -71,19 +75,19 @@ function renderDocuments(documents) {
     const content = document.getElementById("content");
     content.innerHTML = `
       <h1>Documents</h1>
-      <input id="search-bar" type="text" placeholder="Search documents..." />
-      <button onclick="searchDocuments()">Search</button>
+      <input style="border: 0px;" id="search-bar" type="text" placeholder="Search documents..." />
+      <button style="background-color: #4fc557; color: #fff; border-radius: 8px;" onclick="searchDocuments()">Search</button>
       <div id="document-list"></div>
     `;
   
     const documentList = document.getElementById("document-list");
     documents.forEach((doc) => {
       documentList.innerHTML += `
-        <div class="document-item">
-          <span>${doc.name}</span>
-          <button onclick="viewDocument('${doc.name}')">View</button>
-          <button onclick="downloadDocument(${doc.id})">Download</button>
-          <button onclick="addFavorite('${doc.name}')">Add to Favorites</button>
+        <div class="document-item" style=" display: flex; justify-content: center; gap: 0.5rem; padding: 1rem;">
+          <span style="min-width: 100px;">${doc.name}</span>
+          <button style="background-color: rgb(10, 143, 148); color: #fff; border-radius: 8px;" onclick="viewDocument('${doc.name}')">View</button>
+          <button style="background-color:green; color: #fff; border-radius: 8px;" onclick="downloadDocument(${doc.id})">Download</button>
+          <button style="background-color: rgb(196, 196, 28); color: #fff; border-radius: 8px;" onclick="addFavorite('${doc.name}')">Add to Favorites</button>
         </div>
       `;
     });
@@ -164,7 +168,7 @@ function renderFavorites(favorites) {
     content.innerHTML += `
       <div class="favorite-item">
         <span>${fav.filename}</span>
-        <button onclick="deleteFavorite('${fav.filename}')">Remove</button>
+        <button style="background-color: rgb(160, 13, 13); color: white; border-radius: 8px;" onclick="deleteFavorite('${fav.filename}')">Remove</button>
       </div>
     `;
   });
